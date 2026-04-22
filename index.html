@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusPlay | A Arena dos Deuses</title>
+    <style>
+        /* RESET e ESTILOS GLOBAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c12;
+            font-family: 'Segoe UI', 'Orbitron', 'Poppins', 'Arial', sans-serif;
+            line-height: 1.4;
+            color: #eef5ff;
+            overflow-x: hidden;
+        }
+
+        /* CONTAINER RESPONSIVO */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            background-color: #0a0c12;
+        }
+
+        /* ========== HEADER ========== */
+        .main-header {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2f 100%);
+            border-bottom: 3px solid #ff3366;
+            padding: 10px 5%;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Permite quebra em telas muito pequenas */
+        }
+
+        .logo-area h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(20px, 5vw, 32px); /* Tamanho fluido */
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #ff3366, #ffaa44);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #eef5ff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover { color: #ff6670; }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            background: radial-gradient(circle at 20% 30%, #19212b, #03050b);
+            padding: 60px 5%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-text { flex: 1; max-width: 600px; }
+        .hero-text h2 { font-size: clamp(32px, 8vw, 54px); margin-bottom: 20px; }
+        
+        .hero-image { flex: 1; display: flex; justify-content: center; }
+        .hero-image img {
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+        }
+
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
+
+        /* ========== JOGOS EM DESTAQUE ========== */
+        .featured { padding: 60px 5%; background: #0f111a; }
+        .section-title { font-size: 32px; text-align: center; margin-bottom: 40px; }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background: #181c28;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #2a2f3f;
+            transition: 0.3s;
+        }
+
+        .game-card:hover { transform: translateY(-10px); border-color: #ff3366; }
+        .game-img { height: 170px; background-size: cover; background-position: center; }
+        .game-info { padding: 20px; }
+
+        /* ========== PROMO & RANKING ========== */
+        .promo-banner {
+            background: linear-gradient(90deg, #1a1c2c, #221f32);
+            margin: 20px 5%;
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px;
+            border-left: 8px solid #ffaa44;
+            gap: 20px;
+        }
+
+        .rank-section { padding: 40px 5%; }
+        .rank-table-container { overflow-x: auto; } /* Scroll horizontal só na tabela se necessário */
+        .rank-table { width: 100%; border-collapse: collapse; min-width: 500px; }
+
+        /* ========== NEWSLETTER ========== */
+        .newsletter {
+            background: #131725;
+            margin: 40px 5%;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-group input {
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: 1px solid #373e5a;
+            background: #0b0e18;
+            color: white;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        /* ========== FOOTER ========== */
+        .main-footer {
+            padding: 50px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            background: #07090f;
+        }
+
+        .footer-col ul { list-style: none; margin-top: 15px; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { color: #a0a8ca; text-decoration: none; }
+
+        /* ========== MEDIA QUERIES (O SEGREDO DA RESPONSIVIDADE) ========== */
+        
+        /* Tablets e Telas Médias */
+        @media (max-width: 992px) {
+            .hero { flex-direction: column; text-align: center; }
+            .btn-group { justify-content: center; }
+            .hero-text { max-width: 100%; }
+        }
+
+        /* Celulares */
+        @media (max-width: 768px) {
+            .main-header { justify-content: center; gap: 15px; }
+            .nav-links { font-size: 14px; gap: 10px; flex-wrap: wrap; justify-content: center; }
+            .form-group { flex-direction: column; align-items: center; }
+            .form-group input { max-width: 100%; }
+            .promo-banner { text-align: center; justify-content: center; }
+        }
+
+        /* Botões padronizados */
+        button, .btn-primary, .btn-secondary, .promo-btn {
+            cursor: pointer;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: bold;
+            font-family: inherit;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-primary { background: #ff3366; color: white; box-shadow: 0 4px 0 #a01e42; }
+        .btn-secondary { background: transparent; border: 2px solid #ffaa44; color: #ffaa44; }
+        .promo-btn { background: #ffaa44; color: #1e1b2c; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="main-header">
+        <div class="logo-area">
+            <h1>⚡ NEXUSPLAY</h1>
+            <p>REINO DOS JOGADORES</p>
+        </div>
+        <nav class="nav-links">
+            <a href="#">INÍCIO</a>
+            <a href="#">JOGOS</a>
+            <a href="#">RANKING</a>
+            <a href="#">LOJA</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <div style="background: #ff3366; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; margin-bottom: 15px;">🔥 NOVO MUNDO ABERTO</div>
+            <h2>DOMINE A <span>ARENA</span> DOS DEUSES</h2>
+            <p>Batalhas épicas e gráficos de última geração. Suba no ranking global agora!</p>
+            <div class="btn-group">
+                <button class="btn-primary">JOGAR AGORA</button>
+                <button class="btn-secondary">TRAILER</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://placehold.co/480x400/1f1a2e/ff6680?text=GUERREIRO+DRAGON" alt="Personagem Jogo">
+        </div>
+    </section>
+
+    <section class="featured">
+        <div class="section-title">⚔️ JOGOS EM DESTAQUE ⚔️</div>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-img" style="background-image: url('https://placehold.co/280x170/2a1e3c/dd5588?text=Shadow+Legends');"></div>
+                <div class="game-info">
+                    <h3>Shadow Legends</h3>
+                    <p>RPG tático lendário.</p>
+                    <span style="color:#ff3366; font-size: 12px; font-weight: bold;">MMORPG</span>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-img" style="background-image: url('https://placehold.co/280x170/1f2c2e/44ffaa?text=Cyber+Strike');"></div>
+                <div class="game-info">
+                    <h3>Cyber Strike</h3>
+                    <p>FPS futurista intenso.</p>
+                    <span style="color:#ff3366; font-size: 12px; font-weight: bold;">FPS</span>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-img" style="background-image: url('https://placehold.co/280x170/261f2a/f0aa44?text=Dragonspire');"></div>
+                <div class="game-info">
+                    <h3>Dragonspire</h3>
+                    <p>Domine dragões épicos.</p>
+                    <span style="color:#ff3366; font-size: 12px; font-weight: bold;">AÇÃO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="promo-banner">
+        <div>
+            <h4>🏆 PROMOÇÃO DE LANÇAMENTO</h4>
+            <p>Até 50% de desconto em skins lendárias!</p>
+        </div>
+        <button class="promo-btn">RESGATAR</button>
+    </div>
+
+    <section class="rank-section">
+        <h3>🏅 RANKING DAS LENDAS</h3>
+        <div class="rank-table-container">
+            <table class="rank-table">
+                <thead>
+                    <tr><th>#</th><th>JOGADOR</th><th>PONTOS</th><th>CLASSE</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>⚡ Kaelen_SV</td><td>12,450</td><td>Mago Rubro</td></tr>
+                    <tr><td>2</td><td>🔥 Nyx_Furia</td><td>11,870</td><td>Assassina</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="newsletter">
+        <h3>📢 Entre na Irmandade</h3>
+        <div class="form-group">
+            <input type="email" placeholder="Seu e-mail gamer">
+            <button class="btn-primary">INSCREVER-SE</button>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-col">
+            <h4>NEXUSPLAY</h4>
+            <ul>
+                <li><a href="#">Sobre nós</a></li>
+                <li><a href="#">Termos</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>SOCIAL</h4>
+            <ul>
+                <li><a href="#">Discord</a></li>
+                <li><a href="#">Twitch</a></li>
+            </ul>
+        </div>
+    </footer>
+    <div style="text-align: center; padding: 20px; color: #6c7295; font-size: 12px; border-top: 1px solid #1a1e2c;">
+        © 2026 NEXUSPLAY — Todos os direitos reservados.
+    </div>
+</div>
+
+</body>
+</html>
